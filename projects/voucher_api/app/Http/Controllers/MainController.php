@@ -2,24 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Request;
+use App\Service\VoucherService;
+use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
     /**
-     * Generated 3Million Vouchers 
+     * Generated 3Million Vouchers
      *
-     * @param noPlayers
-     * @return []string{} // returns an arrayo fstrings
+     * @param count int
+     * @param bench bool
+     * @return bool
      */
-    public function simulate(Request $request)
+    public function generate(Request $request)
     {
         try {
-            dd("hello")
+            $voucherS = new VoucherService();
+            $data = $voucherS->generateVoucher($request->count);
+
+            return response()->json([
+                "data" => $data,
+            ], 200);
+
         } catch (\Throwable $th) {
             return response()->json([
                 "message" => $th->getMessage(),
-                "code" => $th->getCode()
+                "code" => $th->getCode(),
             ], 500);
         }
     }

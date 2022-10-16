@@ -19,4 +19,4 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-// Route::post('/cardgame/simulate', [MainController::class, 'simulate']);
+Route::post('/voucher/generate', [MainController::class, 'generate']);

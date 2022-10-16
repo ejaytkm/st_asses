@@ -7,6 +7,6 @@
     <title>Voucher</title>
 </head>
 <body>
-    <h1>Testing Voucher</h1>
+    <h1>Vouchers</h1>
 </body>
 </html>
