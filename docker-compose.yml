@@ -1,0 +1,34 @@
+version: '3'
+services:
+  db:
+    image: mysql
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --init-file /data/application/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - ./init.sql:/data/application/init.sql
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  voucher_api:
+    container_name: 'voucher_api'
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./projects/voucher_api:/var/www
+    command: "php artisan serve --host=0.0.0.0 --port=8000"
+    # command: sh -c "tail -f /dev/null" // #TIP: use this to debug docker container without failing
+

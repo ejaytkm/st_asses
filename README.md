@@ -1,6 +1,6 @@
 ![Logo of the project](https://raw.githubusercontent.com/jehna/readme-best-practices/master/sample-logo.png)
 
-# Name of the project
+# ST Assetment
 
 > Additional information or tagline
 
