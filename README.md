@@ -16,7 +16,7 @@ After that go ahead and visit or curl `http://localhost:8000`
 
 For API setup, you may look at thunder-collection_Sugarbook.json
 
-1. Generate Vouchers - [POST]`localhost:8000/api/voucher/generate` -
+1. [POST] Generate 3,000,000 Vouchers - `localhost:8000/api/voucher/generate` -
 NOTE: please wait a few seconds, you will get an `id` for you to track its progress
 ```shell
 {
@@ -25,7 +25,7 @@ NOTE: please wait a few seconds, you will get an `id` for you to track its progr
 }
 ```
 
-2. Return total processing time of batch based on `id` - [GET]`localhost:8000/voucher/batch?id=97869778-54ad-4061-82c5-ea8fcc913081`. You can get `id` for return on API 1.
+2. [GET] Return total processing time of batch based on `id` - `localhost:8000/voucher/batch?id=97869778-54ad-4061-82c5-ea8fcc913081`. You can get `id` for return on API 1.
 ```shell
 {
   "id": "97869778-54ad-4061-82c5-ea8fcc913081",
@@ -41,7 +41,7 @@ NOTE: please wait a few seconds, you will get an `id` for you to track its progr
 }
 ```
 
-3. Get voucher - [GET]`localhost:8000/voucher/get`
+3. [GET] Get voucher - `localhost:8000/voucher/get`
 ```shell
 {
   "voucher_code": "90dfec",
@@ -50,7 +50,7 @@ NOTE: please wait a few seconds, you will get an `id` for you to track its progr
 }
 ```
 
-4. Claim voucher - [GET]`localhost:8000/voucher/claim?code=5502b9`
+4. [GET] Claim voucher - `localhost:8000/voucher/claim?code=5502b9`
 ```shell
 {
   "voucher_code": "90dfec",
@@ -58,8 +58,8 @@ NOTE: please wait a few seconds, you will get an `id` for you to track its progr
   "expiry_date": "2022-10-20 20:26:20"
 }
 ```
-
-5. View voucher stats - [GET]`localhost:8000/voucher/stats`
+,
+5. [GET] View voucher stats - `localhost:8000/voucher/stats`
 ```shell
 {
   "available": 375085,
