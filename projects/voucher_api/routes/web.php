@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('voucher'); // define prefix with file name, refer to laravel documentation for this. etc: aaaa.blade.php
 });
+
+Route::get("/voucher/batch", [MainController::class, 'batchStatus']);
+Route::get("/voucher/get", [MainController::class, 'getVoucher']);
+Route::get("/voucher/stats", [MainController::class, 'getVoucherStats']);
+Route::get("/voucher/claim", [MainController::class, 'claimVoucher']);

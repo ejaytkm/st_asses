@@ -11,6 +11,10 @@ services:
       - ./init.sql:/data/application/init.sql
     ports:
       - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
 
   adminer:
     image: adminer
@@ -18,17 +22,58 @@ services:
     ports:
       - 8080:8080
 
+  nginx:
+    container_name: 'nginx'
+    build:
+      context: ./docker/nginx
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    volumes:
+      - ./docker/nginx/log:/var/log/nginx
+      - ./docker/nginx/sites:/etc/nginx/sites-available
+      - ./docker/nginx/sites:/etc/nginx/ssl
+      - ./projects/voucher_api:/var/www
+    ports:
+      - "8000:8000"   # voucher_api.conf
+    depends_on:
+     - voucher_api
+
   voucher_api:
     container_name: 'voucher_api'
     build:
       context: ./docker/php
       dockerfile: Dockerfile
     working_dir: /var/www
-    ports:
-      - '8000:8000'
+    expose:
+      - '9000'
     volumes:
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
       - ./projects/voucher_api:/var/www
-    command: "php artisan serve --host=0.0.0.0 --port=8000"
-    # command: sh -c "tail -f /dev/null" // #TIP: use this to debug docker container without failing
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "composer install &&
+             php artisan migrate &&
+             php-fpm"
+
+  voucher_api_queue:
+    container_name: 'voucher_api_queue'
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    volumes:
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./projects/voucher_api:/var/www
+    depends_on:
+      - "voucher_api"
+    command: >
+      sh -c "composer install &&
+        php artisan queue:work"
+
+
+    # php artisan queue:work
 

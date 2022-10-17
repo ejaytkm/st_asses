@@ -71,7 +71,5 @@ COPY ./fpm/pool.conf /usr/local/etc/php-fpm.d/
 # COPY . /var/www
 
 # Copy existing application directory permissions
-# COPY --chown=www:www . /var/www
-# Change current user to www
-
-# CMD ["php-fpm"]
+COPY --chown=www:www . /var/www
+CMD ["php-fpm"]
